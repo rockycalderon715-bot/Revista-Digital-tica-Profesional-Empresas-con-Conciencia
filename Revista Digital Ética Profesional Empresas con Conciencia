@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revista Digital - Empresas con Conciencia | 8 Páginas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            50: '#f0f4f8',
+                            100: '#d9e2ec',
+                            500: '#334e68',
+                            800: '#102a43',
+                            900: '#0b1b2b',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#d97706',
+                            600: '#b45309',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'Cambria', 'serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .page-transition {
+            transition: all 0.35s ease-in-out;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-800/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 px-4 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Title & Badge -->
+            <div class="flex items-center space-x-3">
+                <span class="bg-navy-900 dark:bg-navy-500 text-gold-400 font-bold px-2.5 py-1 rounded text-xs tracking-wider uppercase">BA14-34</span>
+                <h1 class="font-serif font-bold text-base md:text-lg text-navy-900 dark:text-white truncate">
+                    Empresas con Conciencia
+                </h1>
+            </div>
+
+            <!-- Page Quick Jumper (1 to 8) -->
+            <div class="hidden lg:flex items-center space-x-1">
+                <button onclick="goToPage(1)" class="page-num-btn px-2.5 py-1 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition" id="pbtn-1">P.1</button>
+                <button onclick="goToPage(2)" class="page-num-btn px-2.5 py-1 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition" id="pbtn-2">P.2</button>
+                <button onclick="goToPage(3)" class="page-num-btn px-2.5 py-1 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition" id="pbtn-3">P.3</button>
+                <button onclick="goToPage(4)" class="page-num-btn px-2.5 py-1 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition" id="pbtn-4">P.4</button>
+                <button onclick="goToPage(5)" class="page-num-btn px-2.5 py-1 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition" id="pbtn-5">P.5</button>
+                <button onclick="goToPage(6)" class="page-num-btn px-2.5 py-1 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition" id="pbtn-6">P.6</button>
+                <button onclick="goToPage(7)" class="page-num-btn px-2.5 py-1 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition" id="pbtn-7">P.7</button>
+                <button onclick="goToPage(8)" class="page-num-btn px-2.5 py-1 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition" id="pbtn-8">P.8</button>
+            </div>
+
+            <!-- Global Actions -->
+            <div class="flex items-center space-x-2">
+                <!-- TOC Button -->
+                <button onclick="toggleModal('toc-modal')" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center space-x-1" title="Índice de 8 Páginas">
+                    <i class="fa-solid fa-list-ul"></i>
+                    <span class="hidden md:inline text-xs font-medium">Índice (8 Págs)</span>
+                </button>
+
+                <!-- View Mode Toggle -->
+                <button onclick="toggleViewMode()" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center space-x-1" title="Cambiar vista">
+                    <i id="view-mode-icon" class="fa-solid fa-scroll"></i>
+                    <span id="view-mode-text" class="hidden md:inline text-xs font-medium">Vista Continua</span>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleDarkMode()" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Modo Claro/Oscuro">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-gold-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-6 md:py-8">
+
+        <!-- MAGAZINE SLIDE VIEWER -->
+        <div id="magazine-viewer" class="relative">
+            <div class="min-h-[720px] flex justify-center items-center">
+
+                <!-- PÁGINA 1: PORTADA -->
+                <div id="page-1" class="page-card w-full bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white rounded-2xl p-8 md:p-14 page-shadow border border-slate-700 relative overflow-hidden flex flex-col justify-between min-h-[700px]">
+                    <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-teal-600/10 blur-3xl pointer-events-none"></div>
+                    <div class="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-gold-500/10 blur-3xl pointer-events-none"></div>
+
+                    <div>
+                        <div class="flex justify-between items-start border-b border-slate-700 pb-4 mb-8">
+                            <span class="text-gold-400 font-mono tracking-widest text-xs md:text-sm uppercase font-semibold">REVISTA DIGITAL &bull; PÁGINA 01 DE 08</span>
+                            <span class="text-slate-400 text-xs font-mono">BA14-34 | ÉTICA PROFESIONAL</span>
+                        </div>
+                        <div class="mt-8">
+                            <p class="text-teal-400 font-semibold tracking-wider text-sm uppercase mb-3">Universidad San Marcos</p>
+                            <h1 class="text-4xl md:text-6xl font-serif font-extrabold text-white tracking-tight leading-tight mb-4">
+                                EMPRESAS CON CONCIENCIA
+                            </h1>
+                            <div class="h-1.5 w-24 bg-gradient-to-r from-gold-500 to-teal-500 rounded-full mb-6"></div>
+                            <h2 class="text-xl md:text-2xl font-light text-slate-300 italic max-w-2xl">
+                                Corresponsabilidad empresarial: cuando el éxito se construye entre todos
+                            </h2>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase tracking-wider">AUTOR DEL DOCUMENTO</p>
+                            <p class="text-xl font-bold text-white">JOSÉ RAMÍREZ HERNÁNDEZ</p>
+                            <p class="text-sm text-slate-400">Universidad San Marcos</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-slate-400 uppercase tracking-wider">FECHA DE ENTREGA</p>
+                            <p class="text-sm text-gold-400 font-mono">Noviembre 2026</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PÁGINA 2: INTRODUCCIÓN -->
+                <div id="page-2" class="page-card hidden w-full bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-12 page-shadow border border-slate-200 dark:border-slate-700 min-h-[700px] flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">
+                            <span class="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">INTRODUCCIÓN &bull; 02 | EMPRESAS CON CONCIENCIA</span>
+                            <span class="text-xs text-slate-400">PÁGINA 02 DE 08</span>
+                        </div>
+
+                        <h2 class="text-2xl md:text-3xl font-serif font-bold text-navy-900 dark:text-white mb-6">
+                            ¿Por qué una empresa no debe preocuparse únicamente por generar utilidades?
+                        </h2>
+
+                        <div class="bg-slate-50 dark:bg-slate-900/60 p-6 rounded-xl border-l-4 border-navy-800 dark:border-teal-500 mb-6 shadow-sm">
+                            <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">IDEA CENTRAL</h3>
+                            <p class="text-slate-700 dark:text-slate-200 text-base md:text-lg leading-relaxed">
+                                Una empresa no vive sola. Le compra a proveedores, le vende a clientes, les paga a sus trabajadores, le responde a sus accionistas y comparte espacio con una comunidad y con el medio ambiente. Por eso, pensar solo en ganar dinero es una mirada muy corta. Las utilidades son importantes, pero son el resultado de un buen trabajo, no la única meta.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4 text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed">
+                            <p>
+                                Una empresa responsable no solo crea riqueza: también contribuye al progreso del lugar donde trabaja. Cuando cuida a las personas y actúa con transparencia, gana confianza y fortalece su reputación.
+                            </p>
+                            <p>
+                                En esta revista veremos a quién le debe cuentas una empresa, qué enseña el caso Coopeservidores, cuáles son las buenas prácticas de una organización responsable y qué compromisos éticos deberían guiar a cualquier empresa.
+                            </p>
+                            <p class="font-medium text-navy-900 dark:text-slate-100 bg-amber-50 dark:bg-amber-950/40 p-3 rounded-lg border border-amber-200 dark:border-amber-900">
+                                La idea central es sencilla: el éxito se construye entre todos los que participan en una organización; por eso, es una <strong>corresponsabilidad</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700">
+                        <blockquote class="italic text-slate-700 dark:text-slate-300 border-l-4 border-gold-500 pl-4 py-1">
+                            “La imagen se vende sola”.
+                            <footer class="text-xs font-sans not-italic text-slate-500 mt-1">— Teleclase de Ética Profesional (Universidad San Marcos, s.f., p. 3)</footer>
+                        </blockquote>
+                    </div>
+                </div>
+
+                <!-- PÁGINA 3: ARTÍCULO DE DIVULGACIÓN -->
+                <div id="page-3" class="page-card hidden w-full bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-12 page-shadow border border-slate-200 dark:border-slate-700 min-h-[700px] flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">
+                            <span class="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">ARTÍCULO DE DIVULGACIÓN &bull; 03 | EMPRESAS CON CONCIENCIA</span>
+                            <span class="text-xs text-slate-400">PÁGINA 03 DE 08</span>
+                        </div>
+
+                        <h2 class="text-2xl md:text-3xl font-serif font-bold text-navy-900 dark:text-white mb-3">
+                            ¿A quién le responde una empresa? Los terceros que casi nadie ve
+                        </h2>
+
+                        <div class="bg-slate-50 dark:bg-slate-900/60 p-4 rounded-xl mb-6">
+                            <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">IDEA CENTRAL</h3>
+                            <p class="text-slate-700 dark:text-slate-300 text-sm md:text-base">
+                                Cuando pensamos en una empresa, casi siempre pensamos en sus clientes y empleados. Pero hay otros grupos que también dependen de cómo se comporta. La lectura de responsabilidad para con terceros identifica a accionistas, acreedores, proveedores, distribuidores y competidores.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700">
+                                <h3 class="font-bold text-navy-900 dark:text-gold-400 text-base mb-1 flex items-center space-x-2">
+                                    <i class="fa-solid fa-chart-line text-teal-600"></i>
+                                    <span>ACCIONISTAS</span>
+                                </h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300">
+                                    Son quienes aportan dinero porque confían en la empresa. Tienen derecho a información financiera y a recibir los beneficios de sus acciones. Los recursos deben administrarse con responsabilidad; nadie puede disponer de ellos de manera indiscreta.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700">
+                                <h3 class="font-bold text-navy-900 dark:text-gold-400 text-base mb-1 flex items-center space-x-2">
+                                    <i class="fa-solid fa-handshake-angle text-teal-600"></i>
+                                    <span>ACREEDORES, PROVEEDORES Y DISTRIBUIDORES</span>
+                                </h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300">
+                                    Prestan dinero, venden materias primas o acercan los productos al público. La relación debe basarse en respeto, honestidad y cooperación mutua. Pagar a tiempo y cumplir los pedidos es una práctica ética.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700">
+                                <h3 class="font-bold text-navy-900 dark:text-gold-400 text-base mb-1 flex items-center space-x-2">
+                                    <i class="fa-solid fa-scale-balanced text-teal-600"></i>
+                                    <span>COMPETIDORES</span>
+                                </h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300">
+                                    Competir también tiene reglas. Una empresa no debería crecer a costa de la pobreza del otro. La competencia sana beneficia al mercado y a las personas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 p-4 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 rounded-xl text-center">
+                        <p class="text-sm md:text-base font-serif text-teal-900 dark:text-teal-200 font-medium">
+                            Una empresa responsable cuida su dinero, paga lo que debe, informa con verdad y compite con justicia.
+                        </p>
+                        <span class="text-xs text-teal-700 dark:text-teal-400 block mt-1">(Anónimo, s.f.-b, pp. 4–6)</span>
+                    </div>
+                </div>
+
+                <!-- PÁGINA 4: MAPA MENTAL -->
+                <div id="page-4" class="page-card hidden w-full bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-12 page-shadow border border-slate-200 dark:border-slate-700 min-h-[700px] flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">
+                            <span class="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">MAPA MENTAL &bull; 04 | EMPRESAS CON CONCIENCIA</span>
+                            <span class="text-xs text-slate-400">PÁGINA 04 DE 08</span>
+                        </div>
+
+                        <h2 class="text-2xl md:text-3xl font-serif font-bold text-navy-900 dark:text-white mb-8 text-center">
+                            Corresponsabilidad empresarial
+                        </h2>
+
+                        <!-- Diagram Layout -->
+                        <div class="max-w-2xl mx-auto space-y-6">
+                            <div class="bg-navy-900 text-white p-6 rounded-2xl text-center border-2 border-gold-400 shadow-lg">
+                                <span class="text-xs font-mono text-gold-400 block uppercase">NODO CENTRAL</span>
+                                <h3 class="text-xl font-bold tracking-widest uppercase">CORRESPONSABILIDAD EMPRESARIAL</h3>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border-l-4 border-blue-500 shadow-sm">
+                                    <h4 class="font-bold text-sm text-blue-600 dark:text-blue-400 uppercase mb-1">1. TERCEROS</h4>
+                                    <p class="text-xs md:text-sm text-slate-700 dark:text-slate-300">Accionistas, acreedores, proveedores y competencia</p>
+                                </div>
+
+                                <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border-l-4 border-emerald-500 shadow-sm">
+                                    <h4 class="font-bold text-sm text-emerald-600 dark:text-emerald-400 uppercase mb-1">2. SOCIEDAD</h4>
+                                    <p class="text-xs md:text-sm text-slate-700 dark:text-slate-300">Medio ambiente y comunidad local</p>
+                                </div>
+
+                                <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border-l-4 border-amber-500 shadow-sm">
+                                    <h4 class="font-bold text-sm text-amber-600 dark:text-amber-400 uppercase mb-1">3. TRANSPARENCIA Y LEY</h4>
+                                    <p class="text-xs md:text-sm text-slate-700 dark:text-slate-300">Normas, derechos y rechazo a sobornos</p>
+                                </div>
+
+                                <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border-l-4 border-purple-500 shadow-sm">
+                                    <h4 class="font-bold text-sm text-purple-600 dark:text-purple-400 uppercase mb-1">4. LIDERAZGO Y PROFESIÓN</h4>
+                                    <p class="text-xs md:text-sm text-slate-700 dark:text-slate-300">Dar el ejemplo y respetar el código profesional</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-xs text-slate-400 pt-6 border-t border-slate-100 dark:border-slate-700">
+                        Mapa elaborado con base en Anónimo (s.f.-a, s.f.-b) y Universidad San Marcos (s.f.).
+                    </div>
+                </div>
+
+                <!-- PÁGINA 5: CASO DE ANÁLISIS: COOPESERVIDORES -->
+                <div id="page-5" class="page-card hidden w-full bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-12 page-shadow border border-slate-200 dark:border-slate-700 min-h-[700px] flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">
+                            <span class="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">CASO DE ANÁLISIS: COOPESERVIDORES &bull; 05</span>
+                            <span class="text-xs text-slate-400">PÁGINA 05 DE 08</span>
+                        </div>
+
+                        <h2 class="text-2xl md:text-3xl font-serif font-bold text-navy-900 dark:text-white mb-4">
+                            Cuando la falta de ética afecta a miles de personas
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <!-- ¿Qué pasó? -->
+                            <div class="bg-red-50 dark:bg-red-950/40 p-4 rounded-xl border border-red-200 dark:border-red-900">
+                                <h3 class="font-bold text-red-700 dark:text-red-400 text-base mb-2 flex items-center space-x-2">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    <span>¿QUÉ PASÓ?</span>
+                                </h3>
+                                <p class="text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                                    Coopeservidores terminó en disolución y dejó a miles de ahorrantes afectados. El material del caso menciona al menos 140 mil trabajadores afiliados, pérdidas cercanas al 50 % de su inversión y una pérdida calculada en 80 millones de dólares. También describe créditos ficticios y estados financieros maquillados.
+                                </p>
+                            </div>
+
+                            <!-- Análisis Ético -->
+                            <div class="bg-slate-50 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                                <h3 class="font-bold text-navy-900 dark:text-white text-base mb-2 flex items-center space-x-2">
+                                    <i class="fa-solid fa-magnifying-glass-chart text-teal-600"></i>
+                                    <span>ANÁLISIS ÉTICO</span>
+                                </h3>
+                                <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                    El caso refleja un abuso de la confianza de los ahorrantes, falta de transparencia y posibles incumplimientos de la ley. La administración tiene el deber de cuidar los recursos que se le confían y comunicar la situación real. Cuando falla la dirección, las consecuencias pueden recaer sobre personas vulnerables.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Directivo Actions -->
+                        <div class="bg-navy-900 text-white p-5 rounded-xl">
+                            <h3 class="font-bold text-gold-400 text-xs md:text-sm uppercase tracking-wider mb-3">
+                                ¿QUÉ HABRÍA HECHO COMO DIRECTIVO?
+                            </h3>
+                            <ol class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs md:text-sm">
+                                <li class="flex items-start space-x-2">
+                                    <span class="bg-gold-500 text-navy-900 font-bold rounded-full w-5 h-5 flex items-center justify-center shrink-0 text-xs">1</span>
+                                    <span>Cuidar el dinero ajeno como si fuera propio.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="bg-gold-500 text-navy-900 font-bold rounded-full w-5 h-5 flex items-center justify-center shrink-0 text-xs">2</span>
+                                    <span>Dar el ejemplo y promover una cultura de honestidad.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="bg-gold-500 text-navy-900 font-bold rounded-full w-5 h-5 flex items-center justify-center shrink-0 text-xs">3</span>
+                                    <span>Detener y revisar los créditos dudosos antes de aprobarlos.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="bg-gold-500 text-navy-900 font-bold rounded-full w-5 h-5 flex items-center justify-center shrink-0 text-xs">4</span>
+                                    <span>Presentar estados financieros verdaderos y permitir auditorías independientes.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="bg-gold-500 text-navy-900 font-bold rounded-full w-5 h-5 flex items-center justify-center shrink-0 text-xs">5</span>
+                                    <span>Crear un canal seguro de denuncia y escuchar alertas.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="bg-gold-500 text-navy-900 font-bold rounded-full w-5 h-5 flex items-center justify-center shrink-0 text-xs">6</span>
+                                    <span>Informar a tiempo y colaborar con las autoridades.</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400 italic mt-4 pt-2 border-t border-slate-100 dark:border-slate-700">
+                        El caso citado en el material describe la desaparición de un patrimonio de 187 millones de dólares. (El crimen perfecto: Coopeservidores, s.f., pp. 1–2)
+                    </div>
+                </div>
+
+                <!-- PÁGINA 6: INFOGRAFÍA (PARTE 1) -->
+                <div id="page-6" class="page-card hidden w-full bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-12 page-shadow border border-slate-200 dark:border-slate-700 min-h-[700px] flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">
+                            <span class="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">INFOGRAFÍA &bull; ÉTICA PROFESIONAL &bull; 06</span>
+                            <span class="text-xs text-slate-400">PÁGINA 06 DE 08</span>
+                        </div>
+
+                        <h2 class="text-2xl md:text-3xl font-serif font-bold text-navy-900 dark:text-white mb-2 text-center">
+                            Ética y responsabilidad social empresarial
+                        </h2>
+                        <p class="text-center text-sm text-slate-600 dark:text-slate-400 mb-6">
+                            Lo esencial para una empresa que cuida a las personas, a la sociedad y al ambiente
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 1. PRINCIPIOS -->
+                            <div class="bg-slate-50 dark:bg-slate-900/60 p-5 rounded-xl border-t-4 border-navy-800 dark:border-teal-400">
+                                <h3 class="font-bold text-navy-900 dark:text-white text-base mb-4 uppercase tracking-wider">
+                                    1. PRINCIPIOS
+                                </h3>
+                                <ul class="space-y-3 text-xs md:text-sm">
+                                    <li class="flex items-start space-x-3">
+                                        <i class="fa-solid fa-eye text-navy-800 dark:text-teal-400 text-base mt-0.5"></i>
+                                        <div>
+                                            <strong>Honestidad y transparencia:</strong> Decir la verdad a socios, clientes y empleados.
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start space-x-3">
+                                        <i class="fa-solid fa-handshake text-navy-800 dark:text-teal-400 text-base mt-0.5"></i>
+                                        <div>
+                                            <strong>Respeto y cooperación:</strong> Base de la relación con proveedores y acreedores.
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start space-x-3">
+                                        <i class="fa-solid fa-scale-balanced text-navy-800 dark:text-teal-400 text-base mt-0.5"></i>
+                                        <div>
+                                            <strong>Asumir consecuencias:</strong> Todo acto tiene consecuencias.
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start space-x-3">
+                                        <i class="fa-solid fa-coins text-navy-800 dark:text-teal-400 text-base mt-0.5"></i>
+                                        <div>
+                                            <strong>Uso responsable de recursos:</strong> Nadie puede usar sin límite lo que administra.
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- 2. RESPONSABILIDADES -->
+                            <div class="bg-slate-50 dark:bg-slate-900/60 p-5 rounded-xl border-t-4 border-teal-600">
+                                <h3 class="font-bold text-navy-900 dark:text-white text-base mb-4 uppercase tracking-wider">
+                                    2. RESPONSABILIDADES
+                                </h3>
+                                <ul class="space-y-2.5 text-xs md:text-sm">
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fa-solid fa-chart-pie text-teal-600 mt-1"></i>
+                                        <div><strong>Accionistas:</strong> Administrar bien el capital e informar con verdad.</div>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fa-solid fa-truck text-teal-600 mt-1"></i>
+                                        <div><strong>Proveedores y acreedores:</strong> Pagar a tiempo y cumplir los pedidos.</div>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fa-solid fa-award text-teal-600 mt-1"></i>
+                                        <div><strong>Competidores:</strong> Competir con justicia, sin crecer a costa del otro.</div>
+                                    </li>
+                                    <li class="flex items-start space-x-2 bg-emerald-100 dark:bg-emerald-950/60 p-2 rounded-lg border border-emerald-300 dark:border-emerald-800">
+                                        <i class="fa-solid fa-leaf text-emerald-600 mt-1"></i>
+                                        <div><strong>Medio ambiente:</strong> Costa Rica tiene el 5 % de la biodiversidad de la región.</div>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fa-solid fa-hands-holding-child text-teal-600 mt-1"></i>
+                                        <div><strong>Comunidad local:</strong> Compartir el progreso con el entorno donde se trabaja.</div>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fa-solid fa-gavel text-teal-600 mt-1"></i>
+                                        <div><strong>Ley y derechos laborales:</strong> Cumplir normas nacionales e internacionales.</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-right text-xs text-slate-400 pt-4 border-t border-slate-100 dark:border-slate-700">
+                        Continúa en la Página 07 &rarr;
+                    </div>
+                </div>
+
+                <!-- PÁGINA 7: INFOGRAFÍA (PARTE 2) -->
+                <div id="page-7" class="page-card hidden w-full bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-12 page-shadow border border-slate-200 dark:border-slate-700 min-h-[700px] flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">
+                            <span class="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">INFOGRAFÍA (CONTINUACIÓN) &bull; ÉTICA PROFESIONAL &bull; 07</span>
+                            <span class="text-xs text-slate-400">PÁGINA 07 DE 08</span>
+                        </div>
+
+                        <h3 class="font-bold text-navy-900 dark:text-white text-lg mb-4 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700 pb-2">
+                            3. BUENAS PRÁCTICAS
+                        </h3>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                            <div class="flex items-center space-x-3 p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                <span class="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-200">Pagar a tiempo y entregar bien los productos</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                <span class="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-200">Rechazar los sobornos y pagos cuestionables</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                <span class="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-200">Hacer estudios de impacto ambiental</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                <span class="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-200">Ahorrar papel y electricidad</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                <span class="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-200">Apoyar proyectos con la comunidad</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                <span class="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-200">Liderar con el ejemplo</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                <span class="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-200">Seguir el código de ética profesional</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                <span class="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-200">Guardar el secreto profesional</span>
+                            </div>
+                        </div>
+
+                        <!-- Cita destacada -->
+                        <div class="p-6 bg-navy-900 text-white rounded-2xl text-center shadow-lg border border-gold-400">
+                            <p class="font-serif text-lg md:text-xl font-medium">
+                                “Una empresa responsable no se mide solo por lo que gana, sino por lo que cuida.”
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-700 pt-4">
+                        Fuentes: Anónimo (s.f.-a, pp. 3–6; s.f.-b, pp. 4–6); Universidad San Marcos (s.f., p. 4). Dato de biodiversidad: Anónimo (s.f.-a, p. 4).
+                    </div>
+                </div>
+
+                <!-- PÁGINA 8: ARTÍCULO DE OPINIÓN, DECÁLOGO Y REFERENCIAS -->
+                <div id="page-8" class="page-card hidden w-full bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-12 page-shadow border border-slate-200 dark:border-slate-700 min-h-[700px] flex flex-col justify-between">
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">
+                                <span class="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">ARTÍCULO DE OPINIÓN &bull; 08 | EMPRESAS CON CONCIENCIA</span>
+                                <span class="text-xs text-slate-400">PÁGINA 08 DE 08</span>
+                            </div>
+
+                            <h2 class="text-xl md:text-2xl font-serif font-bold text-navy-900 dark:text-white mb-2">
+                                El éxito que no dura: por qué la falta de ética sale cara
+                            </h2>
+
+                            <div class="bg-amber-50 dark:bg-amber-950/40 p-4 rounded-xl border border-amber-200 dark:border-amber-900 mb-4 text-xs md:text-sm">
+                                <strong>IDEA CENTRAL / POSTURA:</strong> ¿Puede una empresa ser verdaderamente exitosa si actúa de manera poco ética? Mi postura es clara: una empresa puede ganar dinero por un tiempo actuando mal, pero no puede ser verdaderamente exitosa. El éxito real es el que se sostiene, y eso no se logra sin ética.
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs mb-4">
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                                    <h4 class="font-bold text-navy-900 dark:text-gold-400 mb-1">PRIMERO: LA ÉTICA FORTALECE LA EMPRESA</h4>
+                                    <p class="text-slate-600 dark:text-slate-300">Una organización sin compromiso ético debilita sus propias bases. El caso Coopeservidores muestra las consecuencias que puede tener una gestión sin transparencia y sin controles adecuados.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                                    <h4 class="font-bold text-navy-900 dark:text-gold-400 mb-1">SEGUNDO: LA CONFIANZA ES FUNDAMENTAL</h4>
+                                    <p class="text-slate-600 dark:text-slate-300">Nadie quiere ahorrar, comprar ni trabajar donde no confía. Una empresa transparente construye una buena reputación y relaciones duraderas.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                                    <h4 class="font-bold text-navy-900 dark:text-gold-400 mb-1">TERCERO: LAS MALAS PRÁCTICAS DAÑAN EL ENTORNO</h4>
+                                    <p class="text-slate-600 dark:text-slate-300">El soborno perjudica las relaciones comerciales, distorsiona los procesos y afecta a quienes compiten honestamente.</p>
+                                </div>
+                            </div>
+
+                            <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Algunas empresas pueden obtener ganancias a corto plazo sin considerar la ética. Sin embargo, una ganancia que deja víctimas, multas, juicios y pérdida de confianza no representa un éxito completo. El éxito verdadero incluye cuidar a las personas, cumplir la ley y dejar un buen nombre. La ética no es un gasto ni un lujo: es la base que permite que una empresa crezca y se mantenga en pie.
+                            </p>
+                        </div>
+
+                        <!-- DECÁLOGO ÉTICO -->
+                        <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+                            <h3 class="font-bold text-navy-900 dark:text-white text-sm uppercase tracking-wider mb-3">
+                                DECÁLOGO ÉTICO: Diez compromisos para una organización socialmente responsable
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-xs">
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">1.</strong> Actuar con honestidad y transparencia en cada decisión.</div>
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">2.</strong> Cuidar los recursos que se administran.</div>
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">3.</strong> Pagar a tiempo a proveedores, acreedores y distribuidores.</div>
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">4.</strong> Informar con verdad a accionistas y asociados, con estados financieros reales.</div>
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">5.</strong> Competir con justicia, sin crecer a costa del otro.</div>
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">6.</strong> Rechazar sobornos y cualquier pago cuestionable.</div>
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">7.</strong> Cumplir las leyes y respetar los derechos de los trabajadores.</div>
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">8.</strong> Proteger el medio ambiente y ahorrar recursos.</div>
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">9.</strong> Aportar a la comunidad local con proyectos que beneficien a todos.</div>
+                                <div class="p-1.5 bg-slate-100 dark:bg-slate-900 rounded"><strong class="text-gold-500">10.</strong> Liderar con el ejemplo y respetar la ética y el secreto profesional.</div>
+                            </div>
+                        </div>
+
+                        <!-- Cita & REFERENCIAS -->
+                        <div class="border-t border-slate-200 dark:border-slate-700 pt-3">
+                            <p class="italic text-xs font-serif text-slate-700 dark:text-slate-300 text-center mb-3">
+                                “Una empresa responsable no se mide solo por lo que gana, sino por lo que cuida.”
+                            </p>
+                            <h4 class="text-[10px] font-bold text-slate-500 uppercase mb-1">REFERENCIAS BIBLIOGRÁFICAS</h4>
+                            <ul class="text-[10px] text-slate-500 dark:text-slate-400 space-y-0.5">
+                                <li>Anónimo. (s.f.-a). <em>Responsabilidad con la sociedad</em> [Lectura del Módulo 3, L7M3]. Universidad San Marcos.</li>
+                                <li>Anónimo. (s.f.-b). <em>Responsabilidad para con terceros</em> [Lectura del Módulo 3, L6M3]. Universidad San Marcos.</li>
+                                <li><em>El crimen perfecto: Coopeservidores</em>. (s.f.). [Caso de análisis]. Universidad San Marcos.</li>
+                                <li>Universidad San Marcos. (s.f.). <em>Teleclase Ética Profesional</em>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CONTROLS BAR -->
+            <div id="viewer-controls" class="flex items-center justify-between mt-6 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md border border-slate-200 dark:border-slate-700">
+                <button onclick="prevPage()" id="prev-btn" class="px-4 py-2 bg-navy-900 dark:bg-slate-700 text-white rounded-lg hover:bg-navy-800 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center space-x-2">
+                    <i class="fa-solid fa-chevron-left"></i>
+                    <span>Anterior</span>
+                </button>
+
+                <div class="text-center">
+                    <span id="page-indicator" class="font-bold text-sm text-navy-900 dark:text-white">Página 1 de 8</span>
+                    <span id="page-title-indicator" class="block text-xs text-slate-500 dark:text-slate-400">Portada</span>
+                </div>
+
+                <button onclick="nextPage()" id="next-btn" class="px-4 py-2 bg-navy-900 dark:bg-slate-700 text-white rounded-lg hover:bg-navy-800 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center space-x-2">
+                    <span>Siguiente</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTINUOUS READER CONTAINER -->
+        <div id="scroll-viewer" class="hidden space-y-8">
+            <!-- Dynamically cloned continuous pages -->
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-4 px-4 text-center text-xs text-slate-500">
+        <p>Revista Digital Completa (8 Páginas) &bull; Ética Profesional &bull; Universidad San Marcos &bull; José Ramírez Hernández</p>
+    </footer>
+
+    <!-- TABLE OF CONTENTS MODAL (8 PAGES) -->
+    <div id="toc-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
+                <h3 class="font-serif font-bold text-lg text-navy-900 dark:text-white">Índice (8 Páginas Integrales)</h3>
+                <button onclick="toggleModal('toc-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <nav class="space-y-1.5 text-xs md:text-sm">
+                <button onclick="goToPage(1)" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex justify-between items-center font-medium">
+                    <span>1. Portada Principal</span>
+                    <span class="text-xs text-slate-400">Pág. 1</span>
+                </button>
+                <button onclick="goToPage(2)" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex justify-between items-center font-medium">
+                    <span>2. Introducción</span>
+                    <span class="text-xs text-slate-400">Pág. 2</span>
+                </button>
+                <button onclick="goToPage(3)" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex justify-between items-center font-medium">
+                    <span>3. Artículo de Divulgación (Terceros)</span>
+                    <span class="text-xs text-slate-400">Pág. 3</span>
+                </button>
+                <button onclick="goToPage(4)" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex justify-between items-center font-medium">
+                    <span>4. Mapa Mental: Corresponsabilidad</span>
+                    <span class="text-xs text-slate-400">Pág. 4</span>
+                </button>
+                <button onclick="goToPage(5)" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex justify-between items-center font-medium">
+                    <span>5. Caso Coopeservidores</span>
+                    <span class="text-xs text-slate-400">Pág. 5</span>
+                </button>
+                <button onclick="goToPage(6)" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex justify-between items-center font-medium">
+                    <span>6. Infografía: Principios y Responsabilidades</span>
+                    <span class="text-xs text-slate-400">Pág. 6</span>
+                </button>
+                <button onclick="goToPage(7)" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex justify-between items-center font-medium">
+                    <span>7. Infografía: Buenas Prácticas y Cita</span>
+                    <span class="text-xs text-slate-400">Pág. 7</span>
+                </button>
+                <button onclick="goToPage(8)" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex justify-between items-center font-medium">
+                    <span>8. Artículo de Opinión, Decálogo & Referencias</span>
+                    <span class="text-xs text-slate-400">Pág. 8</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- APPLICATION SCRIPT -->
+    <script>
+        let currentPage = 1;
+        const totalPages = 8;
+        let isContinuousView = false;
+
+        const pageTitles = [
+            "Portada",
+            "Introducción",
+            "Artículo de Divulgación",
+            "Mapa Mental",
+            "Caso Coopeservidores",
+            "Infografía (Parte 1)",
+            "Infografía (Parte 2)",
+            "Opinión, Decálogo y Referencias"
+        ];
+
+        function updatePageDisplay() {
+            for (let i = 1; i <= totalPages; i++) {
+                const page = document.getElementById(`page-${i}`);
+                const btn = document.getElementById(`pbtn-${i}`);
+                if (page) {
+                    if (i === currentPage) {
+                        page.classList.remove('hidden');
+                    } else {
+                        page.classList.add('hidden');
+                    }
+                }
+                if (btn) {
+                    if (i === currentPage) {
+                        btn.className = "page-num-btn px-2.5 py-1 rounded text-xs font-semibold bg-navy-900 text-gold-400 dark:bg-gold-500 dark:text-navy-900";
+                    } else {
+                        btn.className = "page-num-btn px-2.5 py-1 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300";
+                    }
+                }
+            }
+
+            document.getElementById('page-indicator').innerText = `Página ${currentPage} de ${totalPages}`;
+            document.getElementById('page-title-indicator').innerText = pageTitles[currentPage - 1];
+
+            document.getElementById('prev-btn').disabled = (currentPage === 1);
+            document.getElementById('next-btn').disabled = (currentPage === totalPages);
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePageDisplay();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePageDisplay();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function goToPage(pageNumber) {
+            currentPage = pageNumber;
+            if (isContinuousView) {
+                toggleViewMode();
+            }
+            updatePageDisplay();
+            const modal = document.getElementById('toc-modal');
+            if (!modal.classList.contains('hidden')) {
+                toggleModal('toc-modal');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleViewMode() {
+            isContinuousView = !isContinuousView;
+            const magazineViewer = document.getElementById('magazine-viewer');
+            const scrollViewer = document.getElementById('scroll-viewer');
+            const viewModeText = document.getElementById('view-mode-text');
+            const viewModeIcon = document.getElementById('view-mode-icon');
+
+            if (isContinuousView) {
+                scrollViewer.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    const originalPage = document.getElementById(`page-${i}`);
+                    const clone = originalPage.cloneNode(true);
+                    clone.classList.remove('hidden');
+                    scrollViewer.appendChild(clone);
+                }
+
+                magazineViewer.classList.add('hidden');
+                scrollViewer.classList.remove('hidden');
+                viewModeText.innerText = "Vista Diapositivas";
+                viewModeIcon.className = "fa-solid fa-book-open";
+            } else {
+                magazineViewer.classList.remove('hidden');
+                scrollViewer.classList.add('hidden');
+                viewModeText.innerText = "Vista Continua";
+                viewModeIcon.className = "fa-solid fa-scroll";
+                updatePageDisplay();
+            }
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!isContinuousView) {
+                if (e.key === 'ArrowRight') nextPage();
+                if (e.key === 'ArrowLeft') prevPage();
+            }
+        });
+
+        window.onload = function () {
+            updatePageDisplay();
+        };
+    </script>
+</body>
+</html>
